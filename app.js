@@ -48,6 +48,7 @@ function startGame() {
         gameArea.appendChild(enemy);
 
     }
+    setting.score = 0;
     setting.start = true;    
     gameArea.appendChild(car);
     setting.x =car.offsetLeft;
@@ -58,6 +59,8 @@ function startGame() {
 
 function playGame() {
     if (setting.start) {
+        setting.score += setting.speed;
+        score.innerHTML = `Score: ${setting.score}`;
         moveRoad();
         moveEnemy();
         if (keys.ArrowLeft && setting.x > 0) {
@@ -102,8 +105,16 @@ function moveRoad() {
 }
 
 function moveEnemy() {
-    let lines = document.querySelectorAll('.enemy');
+    let lines = document.querySelectorAll('.enemy');    
     lines.forEach(item => {
+        let carRect = car.getBoundingClientRect(),
+            enemyRect = item.getBoundingClientRect();
+        if (carRect.top <= enemyRect.bottom &&
+            carRect.right >= enemyRect.left &&
+            carRect.left <= enemyRect.right &&
+            carRect.bottom >= enemyRect.top) {
+            setting.start= false;
+        }
         item.y += setting.speed / 2;
         item.style.top = item.y + 'px';
 
@@ -115,5 +126,5 @@ function moveEnemy() {
 }
 
 function randomEnemy(num) {
-    return Math.floor(Math.random() * num) + 1
+    return Math.floor(Math.random() * num) + 1;
 }

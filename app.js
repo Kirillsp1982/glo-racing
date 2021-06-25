@@ -30,6 +30,11 @@ function getQuantityElementElements(heightElement) {
 function startGame() {
     start.classList.add('hide');
     gameArea.classList.remove('hide');
+    gameArea.innerHTML = '';
+    car.style.left = '125px';
+    car.style.top = 'auto';
+    car.style.bottom = '10px';
+
 
     for (let i = 0; i < getQuantityElementElements(100); i++) {
         const line = document.createElement('div');
@@ -114,6 +119,7 @@ function moveEnemy() {
             carRect.left <= enemyRect.right &&
             carRect.bottom >= enemyRect.top) {
             setting.start= false;
+            start.classList.remove('hide');            
         }
         item.y += setting.speed / 2;
         item.style.top = item.y + 'px';
